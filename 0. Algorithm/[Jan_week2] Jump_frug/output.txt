@@ -1,7 +1,12 @@
 
 Case #1
 5
+
 Case #2
 -1
+
 Case #3
 8
+
+Case #4
+2
