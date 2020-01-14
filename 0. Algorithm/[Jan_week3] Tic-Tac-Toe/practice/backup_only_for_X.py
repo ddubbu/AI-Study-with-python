@@ -1,14 +1,12 @@
 class Map:
     def __init__(self, map_init):
-        self.status = map_init  # 현재 돌 위치 지도 갱신
+        self.status = map_init  # .status -> .status
         self.turn = ""  # 항상 'X' 먼저
         self.round = 1
         self.total_stones = 0
         self.setting()  # self.turn , self
 
     def setting(self):
-        # init method 내에서 숨겨서 초기화
-        # self.turn 과 self.total_stones 를 갱신한다.
         x_count = 0
         o_count = 0
         for row in range(0, 3):  # 행 탐색 iterator
@@ -56,7 +54,7 @@ class Map:
 
 def main():
     # set read/write file variables
-    rfile = open("input2.txt", mode="r")
+    rfile = open("input.txt", mode="r")
     wfile = open("output.txt", mode="wt", encoding="utf-8")
 
     # read each lines
@@ -66,8 +64,9 @@ def main():
     totalCase = int(rlines[0])
 
     # iterative each Case
-    # 1. make map
+    # make map each case.
     for case in range(1, totalCase + 1):
+
         # initialize
         map_init = [['.', '.', '.'], ['.', '.', '.'], ['.', '.', '.']]
 
@@ -78,7 +77,6 @@ def main():
             for col in range(0, 3):  # 열 탐색 iterator
                 map_init[row][col] = line[col] + "s"  # setting turn 기록
 
-        # declare object with
         map = Map(map_init)
 
         # print each case map
@@ -126,20 +124,21 @@ def optimal_move(map):  # min-max algorithm
             if map.status[row][col] == ".s":
                 # 임시방편 바꿔놓기
                 map.status[row][col] = map.turn + str(map.round)
-                map.next_turn()  # turn 도 갱신되어야해!
-                if(map.turn == "O"):
+                map.next_turn() # turn 도 갱신되어야해!
+                if map.turn == "X":
                     score = minimax(map, 0, False)
                     map.status[row][col] = ".s"  # 제자리
                     if score > x_best_score:
                         x_best_score = score
                         where = [row, col]  # change
-                elif(map.turn == "X"):
+                elif map.turn == "O":
+                    print("--------------------------Here")
                     score = maximin(map, 0, False)
                     map.status[row][col] = ".s"  # 제자리
+                    print(score, o_best_score)
                     if score > o_best_score:
                         o_best_score = score
                         where = [row, col]  # change
-
                 map.next_turn()  # turn 복귀
 
     # 최고의 수를 찾은 다음에
@@ -204,8 +203,9 @@ maxi_scores = {
 def maximin(map, depth, is_minimizing):
     result_lsit = ["X", "O", "TIE"]
     result = is_bingo(map)  # check that is there winner?
+
     if result[0] in result_lsit:
-        return maxi_scores[result[0]]
+        return mini_scores[result[0]]
 
     if is_minimizing:
         best_score = -10
@@ -218,6 +218,7 @@ def maximin(map, depth, is_minimizing):
                     score = maximin(map, depth + 1, False)
                     map.status[row][col] = ".s"  # 제자리
                     map.next_turn()
+                    print(score, best_score)
                     best_score = max(score, best_score)
         return best_score
 
@@ -232,6 +233,7 @@ def maximin(map, depth, is_minimizing):
                     score = maximin(map, depth + 1, True)
                     map.status[row][col] = ".s"  # 제자리
                     map.next_turn()
+                    print(score, best_score)
                     best_score = min(score, best_score)
         return best_score
 
