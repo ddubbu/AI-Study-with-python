@@ -26,7 +26,7 @@ Find minimum(optimal) steps for crossing the stone bridge.
 
     - and modify source to module/function as JumpCount
     But I don't set arguments. anyway just call it with this code
-    <code>
+    [ex]
         from Jump_Frug import JumpCount
         JumpCount()
-    </code>
+
