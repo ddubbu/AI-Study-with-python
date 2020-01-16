@@ -56,7 +56,7 @@ class Map:
 
 def main():
     # set read/write file variables
-    rfile = open("input2.txt", mode="r")
+    rfile = open("input.txt", mode="r")
     wfile = open("output.txt", mode="wt", encoding="utf-8")
 
     # read each lines
@@ -121,6 +121,21 @@ def optimal_move(map):  # min-max algorithm
     x_best_score = -10
     o_best_score = -10
     where = []  # memorize move list
+
+    # 참조 코드에서는 "X" 시작을 우선으로 하네.
+    # 그러므로 turn에 따라 scores 판을 바꿔야 하구나!! 대박!
+    x_scores = {
+        "X": 1,
+        "O": -1,
+        "TIE": 0
+    }
+
+    o_scores = {
+        "O": 1,
+        "X": -1,
+        "TIE": 0
+    }
+
     for row in range(0, 3):
         for col in range(0, 3):
             if map.status[row][col] == ".s":
@@ -128,13 +143,13 @@ def optimal_move(map):  # min-max algorithm
                 map.status[row][col] = map.turn + str(map.round)
                 map.next_turn()  # turn 도 갱신되어야해!
                 if(map.turn == "O"):
-                    score = minimax(map, 0, False)
+                    score = minimax(map, 0, False, x_scores)
                     map.status[row][col] = ".s"  # 제자리
                     if score > x_best_score:
                         x_best_score = score
                         where = [row, col]  # change
                 elif(map.turn == "X"):
-                    score = maximin(map, 0, False)
+                    score = minimax(map, 0, False, o_scores)
                     map.status[row][col] = ".s"  # 제자리
                     if score > o_best_score:
                         o_best_score = score
@@ -146,19 +161,10 @@ def optimal_move(map):  # min-max algorithm
     print("--> optimal move", where)
     map.update_map(where)
 
-    return # end
+    return  # end
 
 
-# 참조 코드에서는 "X" 시작을 우선으로 하네.
-# 그러므로 turn에 따라 scores 판을 바꿔야 하구나!! 대박!
-mini_scores = {
-    "X": 1,
-    "O": -1,
-    "TIE": 0
-}
-
-
-def minimax(map, depth, is_maximizing):
+def minimax(map, depth, is_maximizing, mini_scores):
     result_lsit = ["X", "O", "TIE"]
     result = is_bingo(map)  #check that is there winner?
     if result[0] in result_lsit:
@@ -173,7 +179,7 @@ def minimax(map, depth, is_maximizing):
                     # 임시방편 바꿔놓기
                     map.status[row][col] = map.turn + str(map.round)
                     map.next_turn()  # turn 도 갱신되어야해!
-                    score = minimax(map, depth + 1, False)
+                    score = minimax(map, depth + 1, False, mini_scores)
                     map.status[row][col] = ".s" # 제자리
                     map.next_turn()  # turn 복귀
                     best_score = max(score, best_score)
@@ -187,54 +193,11 @@ def minimax(map, depth, is_maximizing):
                     # 임시방편 바꿔놓기
                     map.status[row][col] = map.turn + str(map.round)
                     map.next_turn()
-                    score = minimax(map, depth + 1, True)
+                    score = minimax(map, depth + 1, True, mini_scores)
                     map.status[row][col] = ".s"  # 제자리
                     map.next_turn()
                     best_score = min(score, best_score)
         return best_score
-
-
-maxi_scores = {
-    "O": 1,
-    "X": -1,
-    "TIE": 0
-}
-
-
-def maximin(map, depth, is_minimizing):
-    result_lsit = ["X", "O", "TIE"]
-    result = is_bingo(map)  # check that is there winner?
-    if result[0] in result_lsit:
-        return maxi_scores[result[0]]
-
-    if is_minimizing:
-        best_score = -10
-        for row in range(0, 3):
-            for col in range(0, 3):
-                if map.status[row][col] == ".s":
-                    # 임시방편 바꿔놓기
-                    map.status[row][col] = map.turn + str(map.round)
-                    map.next_turn()
-                    score = maximin(map, depth + 1, False)
-                    map.status[row][col] = ".s"  # 제자리
-                    map.next_turn()
-                    best_score = max(score, best_score)
-        return best_score
-
-    else:
-        best_score = 10
-        for row in range(0,3):
-            for col in range(0,3):
-                if map.status[row][col] == ".s":
-                    # 임시방편 바꿔놓기
-                    map.status[row][col] = map.turn + str(map.round)
-                    map.next_turn()
-                    score = maximin(map, depth + 1, True)
-                    map.status[row][col] = ".s"  # 제자리
-                    map.next_turn()
-                    best_score = min(score, best_score)
-        return best_score
-
 
 def is_bingo(map):
     # 3 연속 빙고 있어?

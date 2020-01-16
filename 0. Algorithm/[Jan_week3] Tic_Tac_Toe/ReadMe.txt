@@ -39,7 +39,9 @@ https://github.com/CodingTrain/website/tree/master/CodingChallenges/CC_154_Tic_T
 6. What did you apply?
 - There's java-script code. I converted it with python.
 - And well-made program is for game with AI (= "X" Player). 
-	In other words,  I added a code for "O" Player which is maximin() function.
+	In other words,  I added a code for "O" Player which can be controlled with different score board in same minimax function.
+	if "X" turn, score board needs that "X" is +1
+	(likewise) if "O" turn, score board needs that "O" is +1 
 - I define Class for Map. so, I can manage useful function and attribution easily.
 - For check, I draw the (stone) map_status on console not website.
 
@@ -56,8 +58,9 @@ https://github.com/CodingTrain/website/tree/master/CodingChallenges/CC_154_Tic_T
 		( I don't use this )
 	If we choose final case, we can get choose tree and scores (at the external node).
 	finally, we choose case with toggling between min/max score in each depth.
-	
-- function maximin() is not for minimize. It's same with minimax().
+
+# I solved under problem. With differenct score board, I can use same maximin function!
+- function maximin() is not for minimize. It's same with minimax(). 
 	but maximin() is for finding the location to lay for "O"  like that minimax() for "X"
 	so I think that simply if turn == "O", use minimax() in researching for minimum score.  
 	anyway, I think it can more simply.
