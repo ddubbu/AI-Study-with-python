@@ -59,7 +59,7 @@ https://github.com/CodingTrain/website/tree/master/CodingChallenges/CC_154_Tic_T
 	If we choose final case, we can get choose tree and scores (at the external node).
 	finally, we choose case with toggling between min/max score in each depth.
 
-# I solved under problem. With differenct score board, I can use same maximin function!
+# I solved under problem. With differenct score board, I can use same minimax function!
 - function maximin() is not for minimize. It's same with minimax(). 
 	but maximin() is for finding the location to lay for "O"  like that minimax() for "X"
 	so I think that simply if turn == "O", use minimax() in researching for minimum score.  
