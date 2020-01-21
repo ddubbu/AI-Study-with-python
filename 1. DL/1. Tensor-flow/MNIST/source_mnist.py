@@ -3,7 +3,7 @@ import tensorflow as tf
 
 # 뭔가 웹사이트 링크 타고 데이터를 받아오는 것 같아.
 # load input data
-mnist = input_data.read_data_sets("../MNIST_data/", one_hot=True)
+mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
 # 변수 선언
 x = tf.placeholder(tf.float32, [None, 784])
