@@ -49,14 +49,15 @@ L = tf.add(tf.matmul(X, W), b)
 L = tf.nn.relu(L)  # 0 이상이면 입력값 그대로 출력 Q. 근데 이게 왜 필요함? 0 이하의 무의미한 data 버리려고?
 
 # normalizing with softmax : '출력값을 다듬어준다' 라고 표현하였다.
-L2 = tf.add(tf.matmul(L, W2), b)  # Q. 왜 L2에는 활성화 함수를 사용하지 않나요?
+L2 = tf.add(tf.matmul(L, W2), b2)  # Q. 왜 L2에는 활성화 함수를 사용하지 않나요?
                                  # 은닉층과 출력층에서 활성화 함수 적용 유무가 중요한 실험적 요소이다.
 # model = tf.nn.softmax(L2)
 # # cost funciton : 교차엔트로피
 # cost = tf.reduce_mean(-tf.reduce_sum(Y * tf.log(model), axis=1))  # Q. matrix 곱이 아니라 일반 곱이네?
 
 # 제공되는 교차 엔트로피 함수
-cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=Y, logits=L2))
+model = L2
+cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=Y, logits=model))
 
 
 # optimizer will be used for training
