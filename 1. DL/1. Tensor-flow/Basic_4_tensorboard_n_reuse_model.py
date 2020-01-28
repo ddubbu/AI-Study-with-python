@@ -35,7 +35,7 @@ with tf.name_scope('layer1'):  # 한계층의 내부를 표현
     L1 = tf.nn.relu(tf.matmul(X, W1))  # shape = (6, 10)
 
 with tf.name_scope("layer2"):
-    W2 = tf.Variable(tf.random_uniform([10, 20], -1., 1.), name="W2")
+    W2 = tf.Variable(tf.random_uniform([10, 20], 0., 1.), name="W2")
     L2 = tf.nn.relu(tf.matmul(L1, W2))  # shape = (6, 20)
 
 with tf.name_scope("output"):
@@ -47,7 +47,8 @@ with tf.name_scope("optimizer"):
     optimizer = tf.train.AdamOptimizer(learning_rate=0.01)
     train_op = optimizer.minimize(cost, global_step=global_step)
 
-tf.summary.scalar('cost', cost)  # tf.summary 텐서 수집
+    tf.summary.scalar('cost', cost)  # tf.summary 텐서 수집
+    tf.summary.histogram("Weights1", W1)
 
 # 3. training  ========
 sess = tf.Session()
@@ -59,7 +60,7 @@ else:
     sess.run(tf.global_variables_initializer())
 
 merged = tf.summary.merge_all()  # 지정한 텐서들을 모두 수집.
-writer = tf.summary.FileWriter('./logs', sess.graph)  # 그래프와 텐서 값 저장할 디렉터리 설정.
+writer = tf.summary.FileWriter('./logs/test1', sess.graph)  # 그래프와 텐서 값 저장할 디렉터리 설정.
 
 for step in range(100):
     sess.run(train_op, feed_dict={X: x_data, Y: y_data})
