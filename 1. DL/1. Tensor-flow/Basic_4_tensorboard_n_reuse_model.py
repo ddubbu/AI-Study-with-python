@@ -11,14 +11,14 @@ x_data = np.array(  # shape = (6, 2)
     [[0, 0], [1, 0], [1, 1], [0, 0], [0, 0], [0, 1]]
 )
 y_data = np.array([   # shape = (6, 3)
-    [1, 0, 0],  # 기타
-    [0, 1, 0],  # 포유류
-    [0, 0, 1],  # 조류
+    # finally return idx
+    [1, 0, 0],  # 기타 (0)
+    [0, 1, 0],  # 포유류(1)
+    [0, 0, 1],  # 조류(2)
     [1, 0, 0],
     [1, 0, 0],
     [0, 0, 1]
 ])
-
 
 # 2. define neural network ========
 
@@ -64,10 +64,13 @@ for step in range(2):
 saver.save(sess, './model/dnn.ckpt', global_step=global_step)
 
 prediction = tf.argmax(model, 1)
-target = tf.argmax(Y, 1)
+target = tf.argmax(Y, 1)  # return idx of Y
 print('예측값:', sess.run(prediction, feed_dict={X: x_data, Y: y_data}))
 print('실제값:', sess.run(target, feed_dict={X: x_data, Y: y_data}))
 
-is_correct = tf.equal(prediction,target)
-accuracy = tf.reduce_mean(tf.cast(is_correct, tf.float32))
+
+# 정확도는 학습 데이터가 아닌 테스트 데이터를 사용해야합니다.
+is_correct = tf.equal(prediction, target)  # return True/False
+accuracy = tf.reduce_mean(tf.cast(is_correct, tf.float32))  # change format and get mean
 print('정확도: %.2f' % sess.run(accuracy*100, {X: x_data, Y: y_data}))
+
