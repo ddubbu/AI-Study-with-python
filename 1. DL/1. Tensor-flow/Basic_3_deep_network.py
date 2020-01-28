@@ -17,7 +17,7 @@ import numpy as np
     
 '''
 
-# 1. load correct data : ground truth ========
+# 1. load correct data : ground truth (실측값) ========
 # [털, 날개]
 x_data = np.array(
     [[0, 0], [1, 0], [1, 1], [0, 0], [0, 0], [0, 1]]
