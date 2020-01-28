@@ -21,6 +21,7 @@ y_data = np.array([   # shape = (6, 3)
 ])
 
 # 2. define neural network ========
+global_step = tf.Variable(0, trainable=False, name="global_step")  # training count
 
 # data를 담을 그릇
 X = tf.placeholder(tf.float32)
@@ -28,23 +29,25 @@ Y = tf.placeholder(tf.float32)
 
 # hidden layer node
 # Weight variable will be trained (changed)
-W1 = tf.Variable(tf.random_uniform([2, 10], -1., 1.))
-L1 = tf.nn.relu(tf.matmul(X, W1))  # shape = (6, 10)
 
-W2 = tf.Variable(tf.random_uniform([10, 20], -1., 1.))
-L2 = tf.nn.relu(tf.matmul(L1, W2))  # shape = (6, 20)
+with tf.name_scope('layer1'):  # 한계층의 내부를 표현
+    W1 = tf.Variable(tf.random_uniform([2, 10], -1., 1.), name="W1")
+    L1 = tf.nn.relu(tf.matmul(X, W1))  # shape = (6, 10)
 
-W3 = tf.Variable(tf.random_uniform([20, 3], -1., 1.))  # shape = (6, 3)
+with tf.name_scope("layer2"):
+    W2 = tf.Variable(tf.random_uniform([10, 20], -1., 1.), name="W2")
+    L2 = tf.nn.relu(tf.matmul(L1, W2))  # shape = (6, 20)
 
-model = tf.matmul(L2, W3)   # final neural network
+with tf.name_scope("output"):
+    W3 = tf.Variable(tf.random_uniform([20, 3], -1., 1.), "W3")  # shape = (6, 3)
+    model = tf.matmul(L2, W3)   # final neural network
 
-# cost function
-cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=Y, logits=model))
+with tf.name_scope("optimizer"):
+    cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=Y, logits=model))
+    optimizer = tf.train.AdamOptimizer(learning_rate=0.01)
+    train_op = optimizer.minimize(cost, global_step=global_step)
 
-optimizer = tf.train.AdamOptimizer(learning_rate=0.01)
-global_step = tf.Variable(0, trainable=False, name="global_step") # training count
-train_op = optimizer.minimize(cost, global_step=global_step)
-
+tf.summary.scalar('cost', cost)  # tf.summary 텐서 수집
 
 # 3. training  ========
 sess = tf.Session()
@@ -55,9 +58,15 @@ if ckpt and tf.train.checkpoint_exists(ckpt.model_checkpoint_path):
 else:
     sess.run(tf.global_variables_initializer())
 
-for step in range(2):
+merged = tf.summary.merge_all()  # 지정한 텐서들을 모두 수집.
+writer = tf.summary.FileWriter('./logs', sess.graph)  # 그래프와 텐서 값 저장할 디렉터리 설정.
+
+for step in range(100):
     sess.run(train_op, feed_dict={X: x_data, Y: y_data})
     print('Step: %d,' %sess.run(global_step), 'Cost: %.3f' %sess.run(cost, feed_dict={X: x_data, Y: y_data}))
+
+    summary = sess.run(merged, feed_dict={X: x_data, Y: y_data})
+    writer.add_summary(summary, global_step=sess.run(global_step))
 
 
 # 학습된 변수들 저장
