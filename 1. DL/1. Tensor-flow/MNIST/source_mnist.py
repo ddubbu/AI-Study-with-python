@@ -1,7 +1,7 @@
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
-# 와 이 간단한 Test도 1분 정도 걸리다닛....
+# 와 이 간단한 Test도 1분 정도 걸리다닛.... 
 
 # 1. Define Training Data ==========
 # Q. Training , Test data를 분리하는 이유는?
