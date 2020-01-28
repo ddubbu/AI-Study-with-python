@@ -1,8 +1,8 @@
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
-import matplotlib as plt # 손글씨 이미지 확인
-
+import matplotlib.pyplot as plt  # 손글씨 이미지 확인
+import numpy as np
 
 # 와 이 간단한 Test도 1분 정도 걸리다닛....
 # 적용 기술
@@ -56,7 +56,7 @@ sess.run(init)
 batch_size = 100
 total_batch = int(mnist.train.num_examples / batch_size)
 
-for epoch in range(15):  # 학습 데이터 전체츨 한 바퀴 도는 것을 epoch 라고 한다.
+for epoch in range(2):  # 학습 데이터 전체츨 한 바퀴 도는 것을 epoch 라고 한다.
     total_cost = 0
 
     for i in range(total_batch):  # 각 batch 별로 cost를 개별 정의해서 누적한다.
@@ -78,3 +78,16 @@ print("정확도:", sess.run(accuracy, feed_dict={X: mnist.test.images, Y: mnist
 
 
 # 4. 이미지 결과 확인
+
+test_result = sess.run(model, feed_dict={X: mnist.test.images, Y: mnist.test.test_result, is_training: False})
+print(test_result)
+
+fig = plt.figure()
+for i in range(10):
+    subplot = fig.add_subplot(2, 5, i+1)
+    subplot.set_xticks([])
+    subplot.set_yticks([])
+    subplot.set_title("%d" % np.argmax(test_result[i]))  # Test 예측 (Training 결과) 값
+    subplot.imshow(mnist.test.images[i].reshape(28,28), cmap=plt.cm.gray_r)  # Test (정확한) 실제 값
+
+plt.show()
