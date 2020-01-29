@@ -79,7 +79,7 @@ print("정확도:", sess.run(accuracy, feed_dict={X: mnist.test.images, Y: mnist
 
 # 4. 이미지 결과 확인
 
-test_result = sess.run(model, feed_dict={X: mnist.test.images, Y: mnist.test.test_result, is_training: False})
+test_result = sess.run(model, feed_dict={X: mnist.test.images, Y: mnist.test.labels, is_training: False})
 print(test_result)
 
 fig = plt.figure()
