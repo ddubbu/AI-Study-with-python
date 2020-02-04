@@ -11,7 +11,7 @@ y방향: +1(동), -1(서)
 x  
 (row)
 
-* Example  
+1. Example  
 3 4 6  
 1 2 3 0  
 0 5 4 0  
@@ -19,7 +19,7 @@ x
 
 wait_line = [[1, 1, 1], [2, 1, 2], [3, 1, 3], [4, 2, 3], [5, 2, 2], [6, 3, 2], [7, 3, 3], [8, 3, 4]]  
 
-* 사용한 함수 : pushTo_wait_line(pos_new, wait_line)  
+2. 사용한 함수 : pushTo_wait_line(pos_new, wait_line)  
 
 우선, readline()으로 한 줄씩 읽고 split한 다음, 값이 0이 아니라면,   
 [num_line, x, y] 배열을 만들어서 wait_line에  
@@ -28,7 +28,7 @@ wait_line = [[1, 1, 1], [2, 1, 2], [3, 1, 3], [4, 2, 3], [5, 2, 2], [6, 3, 2], [
 파이썬은 다행히 list.insert(idx_insert, ele) 함수가 있어서  
 밀어내지 않고 자리만 지정해주면 된다.  
 
-* wait_line sort 하는 이유  
+3. wait_line sort 하는 이유  
 
 나중에, orange, melon 위치 업데이트를 쉽게 하기 위해  
 단순히 배열 인덱스를 한칸만 올리면 되니깐  
@@ -48,4 +48,4 @@ y = ax + b, a:기울기, b:y절편
 orange can't see melon  
 
 4) 예외사항  
-(1) a =  무한대(y축과 평행한) 인 equqtion 정의 불가  
+a =  무한대(y축과 평행한) 인 equqtion 정의 불가  
