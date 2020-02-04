@@ -48,7 +48,7 @@ def main():
         inform = rfile.readline().rstrip().split(' ')
         update_melon = int(inform[2])  # later, i will update with position
 
-        # 1. make wait_line map with 좌표
+        # 1. make wait_line map with [num_line, x, y]
         for row in range(1, int(inform[0]) + 1):
             temp = rfile.readline().rstrip().split(' ')
             for col in range(int(inform[1])):  # 얘는 0부터 커진다는 점 조심하고
@@ -60,19 +60,7 @@ def main():
                     pos_melon = [int(temp[col]), row, col+1]
         print("wait_line is", wait_line)
 
-        # 2. make equation and check all wait_line
-        # y = ax + b, a:기울기, b:y절편
-        # x방향: +1(남), -1(북)
-        # y방향: +1(동), -1(서)
-
-        # 체크 방법
-        # orange, melon 사이에 있고, 만든 equation 위에 있는 점이라면
-        # 가로막는 점(사람)으로 탐색 멈추기
-
-        # (예외사항) 주의해야할 점!
-        # 1. a = 무한대(y축과 평행한)인 eqaution은 정의될 수 없다.
-        # 2. 체크할 아이가 orange와 melon 사이에 있어야함. : isBetween 함수 제작
-        #    상위 위치(x좌표가 출구랑 가까운)가 orange가 될 수도 있다.
+        # 2. make equation and check only between people
 
         a = 1
         b = 0
