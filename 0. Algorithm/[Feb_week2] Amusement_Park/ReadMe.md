@@ -19,7 +19,7 @@ x
 
 wait_line = [[1, 1, 1], [2, 1, 2], [3, 1, 3], [4, 2, 3], [5, 2, 2], [6, 3, 2], [7, 3, 3], [8, 3, 4]]  
 
-### 2. 사용한 함수 : pushTo_wait_line(pos_new, wait_line)  
+### 2. def pushTo_wait_line(pos_new, wait_line):  
 
 우선, readline()으로 한 줄씩 읽고 split한 다음, 값이 0이 아니라면,   
 [num_line, x, y] 배열을 만들어서 wait_line에  
@@ -28,14 +28,14 @@ wait_line = [[1, 1, 1], [2, 1, 2], [3, 1, 3], [4, 2, 3], [5, 2, 2], [6, 3, 2], [
 파이썬은 다행히 list.insert(idx_insert, ele) 함수가 있어서  
 밀어내지 않고 자리만 지정해주면 된다.  
 
-### 3. wait_line sort 하는 이유  
+### 3. why do you sort wait_line ?    
 
 나중에, orange, melon 위치 업데이트를 쉽게 하기 위해  
 단순히 배열 인덱스를 한칸만 올리면 되니깐  
 
 ## II. make equation and check only between people  
 
-### 1. make equation with 2점 (melon, orange)  
+### 1. make equation with 2 points (melon, orange)  
 y = ax + b, a:기울기, b:y절편  
 
 ### 2. check_list = isBetween(wait_line, pos_orange, pos_melon)  
@@ -44,8 +44,8 @@ y = ax + b, a:기울기, b:y절편
 상위 위치(x좌표가 출구랑 가까운) 가 orange가 될 수 있다.  
 그래서, x_min, x_max 와 같은 변수를 만들어서 비교함.  
 
-### 3. check_list에 있는 사람 중 1) eqution을 만족하는 점(사람)이 있다면  
+### 3. if there are satisfied on equation in check_list person  
 orange can't see melon  
 
-### 4. 예외사항  
+### 4. Exception
 a =  무한대(y축과 평행한) 인 equqtion 정의 불가  
