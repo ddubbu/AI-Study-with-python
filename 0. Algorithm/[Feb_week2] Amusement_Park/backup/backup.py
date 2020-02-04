@@ -19,8 +19,8 @@ def isBetween(toCheck, oragne, melon):
 
 def main():
     # set read/write file variables
-    rfile = open("input.txt", mode="r")
-    wfile = open("output.txt", mode="wt", encoding="utf-8")
+    rfile = open("../input.txt", mode="r")
+    wfile = open("../output.txt", mode="wt", encoding="utf-8")
 
     total_case = int(rfile.readline().rstrip())
 
