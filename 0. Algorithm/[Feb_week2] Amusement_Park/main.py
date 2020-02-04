@@ -14,15 +14,14 @@ def pushTo_wait_line(pos_new, wait_line):  # 정렬하기 위함
 
 def isBetween(wait_line, orange, melon):
     result = []
+    x_min = min(orange[1], melon[1])
+    x_max = max(orange[1], melon[1])
+    y_min = min(orange[2], melon[2])
+    y_max = max(orange[2], melon[2])
 
     for toCheck in wait_line:
         if toCheck == orange or toCheck == melon:
             continue
-
-        x_min = min(orange[1], melon[1])
-        x_max = max(orange[1], melon[1])
-        y_min = min(orange[2], melon[2])
-        y_max = max(orange[2], melon[2])
 
         if x_min <= toCheck[1] <= x_max:  # 파이참 제공 문법
             if y_min <= toCheck[2] <= y_max:
@@ -38,7 +37,6 @@ def main():
 
     total_case = int(rfile.readline().rstrip())
 
-    # 1. make wait_line map with 좌표
     for case in range(total_case):
         # initialize
         pos_orange = [1, 1, 1]  # num_line, idx_row, idx_col
@@ -50,6 +48,7 @@ def main():
         inform = rfile.readline().rstrip().split(' ')
         update_melon = int(inform[2])  # later, i will update with position
 
+        # 1. make wait_line map with 좌표
         for row in range(1, int(inform[0]) + 1):
             temp = rfile.readline().rstrip().split(' ')
             for col in range(int(inform[1])):  # 얘는 0부터 커진다는 점 조심하고
@@ -65,6 +64,10 @@ def main():
         # y = ax + b, a:기울기, b:y절편
         # x방향: +1(남), -1(북)
         # y방향: +1(동), -1(서)
+
+        # 체크 방법
+        # orange, melon 사이에 있고, 만든 equation 위에 있는 점이라면
+        # 가로막는 점(사람)으로 탐색 멈추기
 
         # (예외사항) 주의해야할 점!
         # 1. a = 무한대(y축과 평행한)인 eqaution은 정의될 수 없다.
@@ -98,7 +101,7 @@ def main():
                     if _y == person[2]:  # 직선 위에 있는지
                         canSee = 0
                         print("[Can't See] case2 by", person)
-                        break  # 해당 안함.
+                        break  # 볼 수 없음.
 
             if canSee:
                 answer.append(pos_orange[0])
