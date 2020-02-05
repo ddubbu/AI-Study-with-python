@@ -75,7 +75,7 @@ def main():
             check_list = isBetween(wait_line, pos_orange, pos_melon)
             for person in check_list:
                 # 1) equation 방법으로 정의될 수 없는 상황 예외처리 : 기울기가 무한대
-                if (pos_orange[1] - pos_melon[1]) == 0:  # y 좌표값만 비교해서 사이에 있는 값이 있는지 체크
+                if (pos_orange[1] - pos_melon[1]) == 0:  # x 좌표값만 비교해서 사이에 있는 값이 있는지 체크
                     canSee = 0
                     print("[Can't See] case1 by", person)
                     break
