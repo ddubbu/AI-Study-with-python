@@ -1,3 +1,8 @@
+# 새로 추가된 코드
+# 51, 67번째 줄 : orange_pos 새로 읽기
+# 44번째 줄 : toal_case 개수가 아니라, case로 무한 루프 컨트롤 (읽은 줄이 NULL -> case : -1) 이면 끊기
+
+
 def pushTo_wait_line(pos_new, wait_line):  # 정렬하기 위함
     idx_insert = 0
     if len(wait_line) != 0:
@@ -35,16 +40,18 @@ def main():
     rfile = open("input.txt", mode="r")
     wfile = open("output.txt", mode="wt", encoding="utf-8")
 
-    total_case = int(rfile.readline().rstrip())
+    case = 0
+    if '1' == rfile.readline().rstrip().split(' ')[1]:
+        case = 1
+    else:
+        case = -1
 
-    for case in range(total_case):
-        # initialize
-        pos_orange = [1, 1, 1]  # num_line, idx_row, idx_col
+    while case != -1:
+        # initialize : num_line, idx_row, idx_col
+        pos_orange = [0, 0, 0]  # New assign for orange
         pos_melon = [0, 0, 0]  # I don't know not yet
         wait_line = []
 
-        rfile.readline()  # 그냥 위에 엔터
-        print("\n--------\n", rfile.readline().rstrip())  # 그냥 "Example N"
         inform = rfile.readline().rstrip().split(' ')
         update_melon = int(inform[2])  # later, i will update with position
 
@@ -56,7 +63,11 @@ def main():
                 if temp[col] != "0":
                     pos = [int(temp[col]), row, col+1]
                     wait_line = pushTo_wait_line(pos.copy(), wait_line)  # 0번째 요소값에 따라 알아서 정렬되어 넣기
-                if int(temp[col]) == update_melon:
+
+                if temp[col] == "1":  # orange 위치 change
+                    pos_orange = [int(temp[col]), row, col+1]
+
+                elif int(temp[col]) == update_melon:  # change if to elif
                     pos_melon = [int(temp[col]), row, col+1]
         print("wait_line is", wait_line)
 
@@ -101,12 +112,18 @@ def main():
                 pos_melon = wait_line[pos_melon[0]]
 
         # end of process
-        wfile.write("Example " + str(case + 1) + "\n")
+        wfile.write("Example " + str(case) + "\n")
         wfile.write(str(len(answer)) + "\n")
         for ans in answer:
             wfile.write(str(ans) + "\n")
 
-        wfile.write("\n")
+        rfile.readline()  # 그냥 한 줄 읽기
+        temp = rfile.readline().rstrip()
+        if temp == None or temp.split(' ')[0] != "Example":
+            case = -1
+        else:
+            case = case + 1
+            wfile.write("\n")
 
 main()
 
