@@ -1,16 +1,8 @@
-# 잠깐 뭐라고? 입출력에서 Example 을 없애자!
-'''
-예제 입출력에서 Example로 시작하는 줄은 실제 입출력에 포함되지 않습니다.
-각각을 하나의 입출력 세트로 읽어주세요.
-'''
-
-# 오답 84 ms >> 이것도 아님.
-
-# 출력에 Example 을 써보자 >> 오답 88ms 이것도 아님
+# -*- coding: utf-8 -*-
 
 import sys
 
-def pushTo_wait_line(pos_new, wait_line):  # 정렬하기 위함
+def pushTo_wait_line(pos_new, wait_line):  # for sorting
     idx_insert = 0
     if len(wait_line) != 0:
         for i in range(0, len(wait_line)):
@@ -44,8 +36,8 @@ def isBetween(wait_line, orange, melon):
 
 # set read/write file variables
 fp = sys.stdin
-# fp = open("test_input.txt", mode="r")  #
-case = 1  # 무조건 바로 시작한다고 보고
+#fp = open("test_input.txt", mode="r")  #
+case = 1  # just start
 
 while case != -1:  # and case < 10:  # case != -1:
     # initialize
@@ -53,17 +45,20 @@ while case != -1:  # and case < 10:  # case != -1:
     pos_melon = [0, 0, 0]  # I don't know not yet
     wait_line = []
 
-    inform = fp.readline().rstrip().split(' ')
+    rl = fp.readline()
+    if not rl:
+        break
+    inform = rl.rstrip().split(' ')
     update_melon = int(inform[2])  # later, i will update with position
 
     # 1. make wait_line map with [num_line, x, y]
     for row in range(1, int(inform[0]) + 1):
         temp = fp.readline().rstrip().split(' ')
-        for col in range(int(inform[1])):  # 얘는 0부터 커진다는 점 조심하고
+        for col in range(int(inform[1])):  # be careful starting from 0
             pos = []
             if temp[col] != "0":
                 pos = [int(temp[col]), row, col + 1]
-                wait_line = pushTo_wait_line(pos.copy(), wait_line)  # 0번째 요소값에 따라 알아서 정렬되어 넣기
+                wait_line = pushTo_wait_line(pos.copy(), wait_line)  # sorting by ele[0]
             if int(temp[col]) == update_melon:
                 pos_melon = [int(temp[col]), row, col + 1]
     # print("wait_line:", wait_line) #
@@ -76,32 +71,32 @@ while case != -1:  # and case < 10:  # case != -1:
         #print("run:", i, pos_orange, pos_melon) #
         canSee = 1
 
-        # 범위 안에 있는 사람들만 체크하기
+        # check only in range
         check_list = isBetween(wait_line, pos_orange, pos_melon)
         for person in check_list:
-            # 1) equation 방법으로 정의될 수 없는 상황 예외처리 : 기울기가 무한대
-            if (pos_orange[1] - pos_melon[1]) == 0:  # x 좌표값만 비교해서 사이에 있는 값이 있는지 체크
+            # 1) exception of equation method : slope is infinite
+            if (pos_orange[1] - pos_melon[1]) == 0:  # compare only x_axis
                 canSee = 0
                 break
 
-            else:  # 2) equation 방법으로
+            else:  # 2) equation method
                 # initialize
                 a = (pos_orange[2] - pos_melon[2]) / (pos_orange[1] - pos_melon[1])
                 b = pos_orange[2] - a * pos_orange[1]
 
                 _y = a * person[1] + b
-                if _y == person[2]:  # 직선 위에 있는지
+                if _y == person[2]:  # is on line ?
                     canSee = 0
-                    break  # 볼 수 없음.
+                    break  # can't see
 
         if canSee:
             answer.append(pos_orange[0])
 
-        # (마지막 요소가 아니면) move to next position
+        # (if isn't last ele) move to next position
         if pos_melon[0] < wait_line[-1][0]:
-            # different between wait_line idx + 1 = 현재 위치
+            # different between wait_line idx + 1 = current position
 
-            pos_orange = wait_line[pos_orange[0]]  # 그러므로 그 값을 넘기면 알아서 업데이트 됨
+            pos_orange = wait_line[pos_orange[0]]  # update natural
             pos_melon = wait_line[pos_melon[0]]
 
     # end of process
@@ -110,7 +105,7 @@ while case != -1:  # and case < 10:  # case != -1:
     for ans in answer:
         print(str(ans))
 
-    temp = fp.readline()  # 그냥 한 줄 읽기
+    temp = fp.readline()  # just read enter
     if not temp:
         case = -1
     else:
