@@ -1,6 +1,6 @@
 # 새로 추가된 코드
 # 51, 67번째 줄 : orange_pos 새로 읽기
-# 44번째 줄 : toal_case 개수가 아니라, case로 무한 루프 컨트롤 (읽은 줄이 NULL -> case : -1) 이면 끊기
+# 44, 120번째 줄 : toal_case 개수가 아니라, case로 무한 루프 컨트롤 (읽은 줄이 NULL -> case : -1) 이면 끊기
 
 
 def pushTo_wait_line(pos_new, wait_line):  # 정렬하기 위함
