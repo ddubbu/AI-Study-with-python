@@ -6,7 +6,11 @@ import matplotlib.pyplot as plt
 
 # 1. 음성파일 load
 audio_path = "../0. data/train/train_data/wav_001.wav"
-y, sr = librosa.load(audio_path)
+y, sr = librosa.load(audio_path)  # sr=48000, mono=True, duration=1)
+# sr = smaple rate [Hz]
+# mono = 사운드 채널 수 (True:1, False:2)
+# duration = 사운드 길이 [s]
+
 ori_sent = "GO DO YOU HEAR"
 
 Audio(data=y, rate=sr)   # 왜 이거 안뜨지?
