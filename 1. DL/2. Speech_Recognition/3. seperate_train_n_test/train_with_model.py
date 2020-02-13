@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 from sklearn.model_selection import train_test_split  # 이게 왜 있지
-
 import os
 
 '''
@@ -21,9 +20,10 @@ WAVE_OUTPUT_FILENAME = "output.wav"
 '''
 
 
-DATA_PATH = "./data/train/"  # train_data_path
+TRAIN_DATA_PATH = "./data/train/"
 
-# 나중에 feeding 되는거 보면 placeholder 대신, 변수를 사용한 듯.
+# placeholder는 입력값 그릇, tf.Variable는 업데이트 대상
+# 나중에 feeding 되는거 보면 placeholder 대신, python 자체 전역변수를 사용한 듯.
 X_train = []  # train_data 저장할 공간
 X_test = []
 Y_train = []
@@ -32,37 +32,39 @@ tf_classes = 0
 
 
 def load_wave_generator(path):
-    batch_waves = []
-    labels = []
-    X_data = []
-    Y_label = []
-    global X_train, X_test, Y_train, Y_test, tf_classes
+    try:
+        batch_waves = []
+        labels = []
+        X_data = []
+        Y_label = []
+        global X_train, X_test, Y_train, Y_test, tf_classes
 
-    folders = os.listdir(path)
+        folders = os.listdir(path)  # ['0', '1', '2', '3', '4']
 
-    for folder in folders:
-        if not os.path.isdir(path): continue  # 폴더가 아니면 continue
-        files = os.listdir(path + "/" + folder)
-        print("Foldername :", folder, "-", len(files), "파일")
-        # 폴더 이름과 그 폴더에 속하는 파일 갯수 출력
-        for wav in files:
-            if not wav.endswith(".wav"):
-                continue
-            else:
-                # print("Filename :",wav)#.wav 파일이 아니면 continue
-                y, sr = librosa.load(path + "/" + folder + "/" + wav)
-                mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13, hop_length=int(sr * 0.01), n_fft=int(sr * 0.02)).T
+        for folder in folders:
+            files = os.listdir(path + "/" + folder)
+            print("Foldername :", folder, "-", len(files), "파일")
+            # 폴더 이름과 그 폴더에 속하는 파일 갯수 출력
+            for wav in files:
+                if not wav.endswith(".wav"):
+                    continue
+                else:
+                    # print("Filename :",wav)#.wav 파일이 아니면 continue
+                    y, sr = librosa.load(path + "/" + folder + "/" + wav)
+                    mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13, hop_length=int(sr * 0.01), n_fft=int(sr * 0.02)).T
 
-                X_data.extend(mfcc)
-                # print(len(mfcc))
+                    X_data.extend(mfcc)
+                    # print(len(mfcc))
 
-                label = [0 for i in range(len(folders))]
-                label[tf_classes] = 1
+                    label = [0 for i in range(len(folders))]
+                    label[tf_classes] = 1
 
-                for i in range(len(mfcc)):
-                    Y_label.append(label)
-                # print(Y_label)
-        tf_classes = tf_classes + 1
+                    for i in range(len(mfcc)):
+                        Y_label.append(label)
+                    # print(Y_label)
+            tf_classes = tf_classes + 1
+    except PermissionError:
+        pass
     # end loop
     print("X_data :", np.shape(X_data))
     print("Y_label :", np.shape(Y_label))
@@ -72,7 +74,7 @@ def load_wave_generator(path):
     np.save("./data.npy", xy)
 
 
-load_wave_generator(DATA_PATH)
+load_wave_generator(TRAIN_DATA_PATH)
 
 # t = np.array(X_train);
 # print("!!!!!!!!",t,t.shape,X_train)
