@@ -1,11 +1,15 @@
-def set_link(map, N, inform_connecting, inform_shortest, not_linked_cores, idx,
-             direc):  # direc : 동(E), 서(W), 남(S), 북(N)
+def set_link(map, inform_connecting, inform_shortest, not_linked_cores, idx, direc):  # direc : 동(E), 서(W), 남(S), 북(N)
     # inform_connecting = [num_linked_core, num_linked_line]
     # inform_shortest = [max_linked_core, short_linked_line]
 
     # start from position of core
 
     if idx >= len(not_linked_cores):
+        return inform_shortest
+
+    # for faster : BFS 계속 할지 말지 (by 쌀알 댓글)
+    # 이 덕분에, 속도 향상! 탐색 branch 자르는 것이 중요하군!
+    if len(not_linked_cores) - idx + inform_linked[0] < inform_shortest[0]:
         return inform_shortest
 
     what_core = not_linked_cores[idx]
@@ -40,7 +44,6 @@ def set_link(map, N, inform_connecting, inform_shortest, not_linked_cores, idx,
         else:
             break
 
-    # temp_inform_shortest = inform_shortest.copy()
     if isOk:
         inform_connecting[0] += 1
         pos_r = what_core[0]
@@ -64,7 +67,7 @@ def set_link(map, N, inform_connecting, inform_shortest, not_linked_cores, idx,
 
     direction = ["E", "W", "S", "N"]
     for direc2 in direction:
-        inform_shortest = set_link(map, N, inform_connecting, inform_shortest, not_linked_cores, idx + 1, direc2)
+        inform_shortest = set_link(map, inform_connecting, inform_shortest, not_linked_cores, idx + 1, direc2)
 
     # DFS 하고 제자리 해보자 : 길 삭제
     if isOk:
@@ -101,7 +104,6 @@ if __name__ == "__main__":
         for i in range(N):
             map.append(input().rstrip().split(" "))  # 다 string 임을 잊지 말고!
 
-        # print(map)
 
         # 2. read core spec
         num_core = 0
@@ -118,17 +120,13 @@ if __name__ == "__main__":
                         not_linked_cores.append([r, c])
 
         # 3. DFS 재귀에게 맡겨라
-        # set_link(map, N, num_linked_core, not_linked_cores[0], "E")
-        # for i in range(N):
-        #     print(map[i])
-
         inform_linked = [num_linked_core, 0]
         inform_shortest = [num_linked_core, N * N]  # max value
         direction = ["E", "W", "S", "N"]
 
         for direc in direction:
-            inform_shortest = set_link(map, N, inform_linked, inform_shortest, not_linked_cores, 0, direc)
+            inform_shortest = set_link(map, inform_linked, inform_shortest, not_linked_cores, 0, direc)
 
         print("#%s" % case, end=" ")
-        print(inform_shortest)
+        print(inform_shortest[1])
 

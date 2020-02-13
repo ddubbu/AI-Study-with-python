@@ -4,8 +4,12 @@ def set_link(map, N, inform_connecting, inform_shortest, not_linked_cores, idx, 
     # inform_shortest = [max_linked_core, short_linked_line]
 
     # start from position of core
-
     if idx >= len(not_linked_cores):
+        return inform_shortest
+
+    # for faster : BFS 계속 할지 말지 (by 쌀알 댓글)
+    # 이 덕분에, 속도 향상! 탐색 branch 자르는 것이 중요하군!
+    if len(not_linked_cores) - idx + inform_linked[0] < inform_shortest[0]:
         return inform_shortest
 
     what_core = not_linked_cores[idx]
@@ -40,7 +44,6 @@ def set_link(map, N, inform_connecting, inform_shortest, not_linked_cores, idx, 
         else:
             break
 
-    # temp_inform_shortest = inform_shortest.copy()
     if isOk:
         inform_connecting[0] += 1
         pos_r = what_core[0]
@@ -82,9 +85,6 @@ def set_link(map, N, inform_connecting, inform_shortest, not_linked_cores, idx, 
                 inform_connecting[1] -= 1
             else:
                 break
-
-        # inform_shortest = temp_inform_shortest
-
     return inform_shortest
 
 if __name__ == "__main__":
@@ -102,9 +102,6 @@ if __name__ == "__main__":
         for i in range(N):
             map.append(rfile.readline().rstrip().split(" "))  # 다 string 임을 잊지 말고!
 
-        print("#", case)
-        # print(map)
-
         # 2. read core spec
         num_core = 0
         num_linked_core = 0
@@ -120,10 +117,6 @@ if __name__ == "__main__":
                         not_linked_cores.append([r, c])
 
         # 3. DFS 재귀에게 맡겨라
-        # set_link(map, N, num_linked_core, not_linked_cores[0], "E")
-        # for i in range(N):
-        #     print(map[i])
-
         inform_linked = [num_linked_core, 0]
         inform_shortest = [num_linked_core, N*N]  # max value
         direction = ["E", "W", "S", "N"]
@@ -131,6 +124,6 @@ if __name__ == "__main__":
         for direc in direction:
             inform_shortest = set_link(map, N, inform_linked, inform_shortest, not_linked_cores, 0, direc)
 
-
-        print(inform_shortest)
+        print("#%s" % case, end=" ")
+        print(inform_shortest[1])
 
