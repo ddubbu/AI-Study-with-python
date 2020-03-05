@@ -117,8 +117,8 @@ if __name__ == "__main__":
                         not_linked_cores.append([r, c])
 
         # 3. DFS 재귀에게 맡겨라
-        inform_linked = [num_linked_core, 0]
-        inform_shortest = [num_linked_core, N*N]  # max value
+        inform_linked = [num_linked_core, 0]  # 실제로 연결된 정보
+        inform_shortest = [num_linked_core, N*N]  # max value  # 답이 될 정보
         direction = ["E", "W", "S", "N"]
 
         for direc in direction:

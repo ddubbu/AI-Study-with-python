@@ -2,7 +2,8 @@ import librosa
 import numpy as np
 import pandas as pd
 import tensorflow as tf
-from sklearn.model_selection import train_test_split  # 이게 왜 있지
+# for seperating train and test set
+from sklearn.model_selection import train_test_split
 import os
 
 '''
@@ -32,7 +33,7 @@ tf_classes = 0
 
 
 def load_wave_generator(path):
-    try:
+    try:  # 혹시
         batch_waves = []
         labels = []
         X_data = []
@@ -43,19 +44,33 @@ def load_wave_generator(path):
 
         for folder in folders:
             files = os.listdir(path + "/" + folder)
-            print("Foldername :", folder, "-", len(files), "파일")
             # 폴더 이름과 그 폴더에 속하는 파일 갯수 출력
+            print("Foldername :", folder, "-", len(files), "파일")
             for wav in files:
-                if not wav.endswith(".wav"):
+                if not wav.endswith(".wav"):  # wave 파일만 읽어들임
                     continue
                 else:
                     # print("Filename :",wav)#.wav 파일이 아니면 continue
-                    y, sr = librosa.load(path + "/" + folder + "/" + wav)
+                    y, sr = librosa.load(path + "/" + folder + "/" + wav)  # 소리파일 읽기
+                    # voice feature  by MFCC
+                    # ★ I can change it mel-spectrogram : librosa.feature.melspectrogram()
                     mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13, hop_length=int(sr * 0.01), n_fft=int(sr * 0.02)).T
 
-                    X_data.extend(mfcc)
+                    # label 0 ~ 4 통채로 X_data, Y_label에 넣어버리기
+                    X_data.extend(mfcc)  # Q. append와의 차이점? extend는 꺽새를 풀어서 원소만 넣기
                     # print(len(mfcc))
 
+                    '''
+                    # labeling 中!
+                    # 나중에 학습시킬 data를 이처럼 잘 정리하는 게 좋겠다!
+                    # Q. 그리고 생각보다 많은 학습 데이터가 없어도 화자인식은 어느정도의 인식율이 나오는 것인가?
+                    
+                    0 유인나
+                    1 배철수
+                    2 이재은
+                    3 최일구
+                    4 문재인 대통령
+                    '''
                     label = [0 for i in range(len(folders))]
                     label[tf_classes] = 1
 
@@ -64,10 +79,12 @@ def load_wave_generator(path):
                     # print(Y_label)
             tf_classes = tf_classes + 1
     except PermissionError:
+        print(path, "를 열수 없습니다.")
         pass
     # end loop
     print("X_data :", np.shape(X_data))
     print("Y_label :", np.shape(Y_label))
+
     X_train, X_test, Y_train, Y_test = train_test_split(np.array(X_data), np.array(Y_label))
 
     xy = (X_train, X_test, Y_train, Y_test)
@@ -232,13 +249,7 @@ y, sr = librosa.load("./data/test/test_이재은.wav")
 
 X_test = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13, hop_length=int(sr*0.01),n_fft=int(sr*0.02)).T
 
-'''
-0 유인나
-1 배철수
-2 이재은
-3 최일구
-4 문재인 대통령
-'''
+
 label = [0 for i in range(5)]#class가 3개이니까 y_test만드는 과정
 label[2] = 1
 Y_test = []
