@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="06f0ab04-1a22-41bc-a9de-7da845b8e3d2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../1. DL/1. Tensor-flow/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../3. PyTorch/tutorial/gradient1.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../3. PyTorch/tutorial/gradient2.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../3. PyTorch/tutorial/tutorial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,9 +63,9 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="C:\Users\hello\anaconda3\envs\audio_record_test\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
@@ -106,38 +109,29 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="176" y="180" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1578554252970">
-      <screen x="0" y="0" width="1707" height="1027" />
+    <state x="210" y="213" key="#main" timestamp="1594273643505">
+      <screen x="0" y="0" width="1642" height="1067" />
     </state>
-    <state x="176" y="180" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1707.1027@0.0.1707.1027" timestamp="1578554252970" />
-    <state x="462" y="453" key="FileChooserDialogImpl" timestamp="1579036815464">
-      <screen x="0" y="0" width="1641" height="1067" />
+    <state x="210" y="213" key="#main/0.0.1642.1067@0.0.1642.1067" timestamp="1594273643505" />
+    <state x="1054" y="578" key="FileChooserDialogImpl" timestamp="1594272942154">
+      <screen x="0" y="0" width="1642" height="1067" />
     </state>
-    <state x="462" y="453" key="FileChooserDialogImpl/0.0.1641.1067@0.0.1641.1067" timestamp="1579036815464" />
-    <state x="481" y="436" key="FileChooserDialogImpl/0.0.1707.1027@0.0.1707.1027" timestamp="1578621499799" />
-    <state width="477" height="899" key="GridCell.Tab.0.bottom" timestamp="1578557460794">
-      <screen x="0" y="0" width="1707" height="1027" />
+    <state x="1054" y="578" key="FileChooserDialogImpl/0.0.1642.1067@0.0.1642.1067" timestamp="1594272942154" />
+    <state width="800" height="288" key="GridCell.Tab.0.bottom" timestamp="1594273655520">
+      <screen x="0" y="0" width="1642" height="1067" />
     </state>
-    <state width="477" height="899" key="GridCell.Tab.0.bottom/0.0.1707.1027@0.0.1707.1027" timestamp="1578557460794" />
-    <state width="477" height="899" key="GridCell.Tab.0.center" timestamp="1578557460794">
-      <screen x="0" y="0" width="1707" height="1027" />
+    <state width="800" height="288" key="GridCell.Tab.0.bottom/0.0.1642.1067@0.0.1642.1067" timestamp="1594273655520" />
+    <state width="800" height="288" key="GridCell.Tab.0.center" timestamp="1594273655520">
+      <screen x="0" y="0" width="1642" height="1067" />
     </state>
-    <state width="477" height="899" key="GridCell.Tab.0.center/0.0.1707.1027@0.0.1707.1027" timestamp="1578557460794" />
-    <state width="477" height="899" key="GridCell.Tab.0.left" timestamp="1578557460794">
-      <screen x="0" y="0" width="1707" height="1027" />
+    <state width="800" height="288" key="GridCell.Tab.0.center/0.0.1642.1067@0.0.1642.1067" timestamp="1594273655520" />
+    <state width="800" height="288" key="GridCell.Tab.0.left" timestamp="1594273655520">
+      <screen x="0" y="0" width="1642" height="1067" />
     </state>
-    <state width="477" height="899" key="GridCell.Tab.0.left/0.0.1707.1027@0.0.1707.1027" timestamp="1578557460794" />
-    <state width="477" height="899" key="GridCell.Tab.0.right" timestamp="1578557460794">
-      <screen x="0" y="0" width="1707" height="1027" />
+    <state width="800" height="288" key="GridCell.Tab.0.left/0.0.1642.1067@0.0.1642.1067" timestamp="1594273655520" />
+    <state width="800" height="288" key="GridCell.Tab.0.right" timestamp="1594273655520">
+      <screen x="0" y="0" width="1642" height="1067" />
     </state>
-    <state width="477" height="899" key="GridCell.Tab.0.right/0.0.1707.1027@0.0.1707.1027" timestamp="1578557460794" />
-    <state x="546" y="338" key="com.intellij.ide.util.TipDialog" timestamp="1578621492068">
-      <screen x="0" y="0" width="1707" height="1027" />
-    </state>
-    <state x="546" y="338" key="com.intellij.ide.util.TipDialog/0.0.1707.1027@0.0.1707.1027" timestamp="1578621492068" />
-    <state x="785" y="286" key="search.everywhere.popup" timestamp="1578374367686">
-      <screen x="0" y="0" width="1707" height="1027" />
-    </state>
-    <state x="785" y="286" key="search.everywhere.popup/0.0.1707.1027@0.0.1707.1027" timestamp="1578374367686" />
+    <state width="800" height="288" key="GridCell.Tab.0.right/0.0.1642.1067@0.0.1642.1067" timestamp="1594273655520" />
   </component>
 </project>
