@@ -7,7 +7,7 @@ import numpy as np
 # 1. data prepare
 # Q. data 다운 후 *.npy 파일로 저장할 수 없나?
 # mnist.train.num_examples = 55000
-mnist = input_data.read_data_sets("./data", one_hot=True)
+mnist = input_data.read_data_sets("../data", one_hot=True)
 
 
 # 2. Parameters
